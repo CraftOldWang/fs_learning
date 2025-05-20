@@ -34,16 +34,23 @@ const Header = (props) => {
   )
 }
 const Content = (props) => {
+  console.log(props)
+  return (
+    <>
+      <Part info = {props.infos[0]} />
+      <Part info = {props.infos[1]} />
+      <Part info = {props.infos[2]} />
+    </>
+  )
+}
+// 果然，刚才重复的地方，可以组件化
+
+const Part = (props) => {
+  console.log(props)
   return (
     <>
       <p>
-        {props.infos[0].part} {props.infos[0].exercises}
-      </p>
-      <p>
-        {props.infos[1].part} {props.infos[1].exercises}
-      </p>
-      <p>
-        {props.infos[2].part} {props.infos[2].exercises}
+        {props.info.part} {props.info.exercises}
       </p>
     </>
   )
