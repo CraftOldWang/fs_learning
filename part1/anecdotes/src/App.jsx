@@ -16,9 +16,16 @@ const App = () => {
   ]
    
   const [selected, setSelected] = useState(0)
-  const [voteNum, setVoteNum] = useState(Array(8).fill(0))
-
-  console.log(voteNum)
+  const [voteNum, setVoteNum] = useState(Array(anecdotes.length).fill(0))
+  
+  let maxIndex = 0
+  for (let i = 1; i<voteNum.length;i++) {
+    if (voteNum[i]>voteNum[maxIndex]){
+      maxIndex = i
+    }
+  }
+  console.log('maxindex',maxIndex)
+  console.log('votenum',voteNum)
 
   const selectRandPara = () => {
     console.log(anecdotes.length)
@@ -36,10 +43,15 @@ const App = () => {
 
   return (
     <div>
+      <h2>Anecdotes of the day</h2>
       <p>{anecdotes[selected]}</p>
       <p>has {voteNum[selected]} votes</p>
       <Button onClick={voteSelected} text = 'vote' />
       <Button onClick={selectRandPara} text='next anecdote'/>
+
+      <h2>Anecdotes with most votes</h2>
+      <p>{anecdotes[maxIndex]}</p>
+      <p>has {voteNum[maxIndex]} votes</p>
     </div>
   )
 }
