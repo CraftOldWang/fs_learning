@@ -1,34 +1,61 @@
 import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
 
-function App() {
-  const [count, setCount] = useState(0)
+
+const Header = ({text}) => <h1>{text}</h1>
+
+const Vote = ({increaseGoodByOne, increaseNeutralByOne, increaseBadByOne}) => {
+  return (
+    <>    
+      <button onClick={increaseGoodByOne}>good</button>
+      <button onClick={increaseNeutralByOne}>neutral</button>
+      <button onClick={increaseBadByOne}>bad</button>
+    </>
+  )
+}
+
+const Statistics = ({good, neutral, bad}) =>  {
+  const total = good + neutral + bad
+  const average = !total ? 0 : ((good - bad) /total)
+  const positive_percent = !total ? 0: (good /total)*100
 
   return (
     <>
-      <div>
-        <a href="https://vite.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.jsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
+      <h2>Statistics</h2>
+      <p>good {good}</p>
+      <p>neutral {neutral}</p>
+      <p>bad {bad}</p>
+      <p>all {total}</p>
+      <p>average {average}</p>
+      <p>positive {positive_percent}%</p>
+
     </>
+  )
+
+}
+  
+
+const App = () => {
+  // save clicks of each button to its own state
+  const [good, setGood] = useState(0)
+  const [neutral, setNeutral] = useState(0)
+  const [bad, setBad] = useState(0)
+
+  console.log('good',good)
+  console.log('neutral',neutral)
+  console.log('bad',bad)
+
+  const increaseByOne_Gen = (stateValue, setFunc) => () => {
+    setFunc(stateValue + 1)
+  }
+
+  return (
+    <div>
+      <Header text = 'give feedback'/>
+      <Vote increaseGoodByOne ={increaseByOne_Gen(good,setGood)} 
+        increaseBadByOne= {increaseByOne_Gen(bad,setBad)} 
+        increaseNeutralByOne = {increaseByOne_Gen(neutral, setNeutral)} />
+      <Statistics good ={good} neutral = {neutral} bad = {bad}/>
+    </div>
   )
 }
 
