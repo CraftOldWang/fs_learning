@@ -18,7 +18,12 @@ const Vote = ({increaseGoodByOne, increaseNeutralByOne, increaseBadByOne}) => {
 }
 
 const StatisticLine = ({text, value, suffix = ''}) => 
-  <p>{text} {value}{suffix}</p>
+  
+  <tr>
+    <td>{text}</td> 
+    <td>{value}</td>
+    <td>{suffix}</td>
+  </tr>
 
 const Statistics = ({good, neutral, bad}) =>  {
   const total = good + neutral + bad
@@ -33,13 +38,16 @@ const Statistics = ({good, neutral, bad}) =>  {
   return (
     <>
       <h2>Statistics</h2>
-      <StatisticLine text="good" value ={good} />
-      <StatisticLine text="neutral" value ={neutral} />
-      <StatisticLine text="bad" value ={bad} />
-      <StatisticLine text="all" value ={total} />
-      <StatisticLine text="average" value ={average} />
-      <StatisticLine text="positive" value ={positive_percent} suffix='%' />
-      
+      <table>
+        <tbody>
+          <StatisticLine text="good" value ={good} />
+          <StatisticLine text="neutral" value ={neutral} />
+          <StatisticLine text="bad" value ={bad} />
+          <StatisticLine text="all" value ={total} />
+          <StatisticLine text="average" value ={average} />
+          <StatisticLine text="positive" value ={positive_percent} suffix='%' />
+        </tbody>
+      </table>
 
     </>
   )
