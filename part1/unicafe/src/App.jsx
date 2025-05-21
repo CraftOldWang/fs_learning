@@ -15,8 +15,13 @@ const Vote = ({increaseGoodByOne, increaseNeutralByOne, increaseBadByOne}) => {
 
 const Statistics = ({good, neutral, bad}) =>  {
   const total = good + neutral + bad
-  const average = !total ? 0 : ((good - bad) /total)
-  const positive_percent = !total ? 0: (good /total)*100
+  if (total === 0) {
+    return (
+      <p>No feedback given</p>
+    )
+  }
+  const average =  (good - bad) /total
+  const positive_percent = (good /total)*100
 
   return (
     <>
