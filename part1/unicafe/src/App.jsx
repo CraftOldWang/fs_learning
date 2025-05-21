@@ -3,15 +3,22 @@ import { useState } from 'react'
 
 const Header = ({text}) => <h1>{text}</h1>
 
+
+const Button = ({onClick, text}) =>
+  <button onClick={onClick}>{text}</button>
+
 const Vote = ({increaseGoodByOne, increaseNeutralByOne, increaseBadByOne}) => {
   return (
     <>    
-      <button onClick={increaseGoodByOne}>good</button>
-      <button onClick={increaseNeutralByOne}>neutral</button>
-      <button onClick={increaseBadByOne}>bad</button>
+      <Button onClick={increaseGoodByOne} text='good' />
+      <Button onClick={increaseNeutralByOne} text='neutral' />
+      <Button onClick={increaseBadByOne} text='bad' />
     </>
   )
 }
+
+const StatisticLine = ({text, value, suffix = ''}) => 
+  <p>{text} {value}{suffix}</p>
 
 const Statistics = ({good, neutral, bad}) =>  {
   const total = good + neutral + bad
@@ -26,12 +33,13 @@ const Statistics = ({good, neutral, bad}) =>  {
   return (
     <>
       <h2>Statistics</h2>
-      <p>good {good}</p>
-      <p>neutral {neutral}</p>
-      <p>bad {bad}</p>
-      <p>all {total}</p>
-      <p>average {average}</p>
-      <p>positive {positive_percent}%</p>
+      <StatisticLine text="good" value ={good} />
+      <StatisticLine text="neutral" value ={neutral} />
+      <StatisticLine text="bad" value ={bad} />
+      <StatisticLine text="all" value ={total} />
+      <StatisticLine text="average" value ={average} />
+      <StatisticLine text="positive" value ={positive_percent} suffix='%' />
+      
 
     </>
   )
