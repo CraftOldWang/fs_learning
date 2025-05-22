@@ -1,4 +1,8 @@
 import { useState } from "react";
+import Filter from './components/Filter'
+import Persons from "./components/Persons";
+import PersonForm from "./components/PersonForm";
+
 
 const App = () => {
     // const [persons, setPersons] = useState([
@@ -54,8 +58,12 @@ const App = () => {
     const addContact = (event) => {
         event.preventDefault();
         console.log(event.target);
+        console.log({newName})
         const newPerson = {
-            name: newName, //todo 如果用了大括号会怎样？？？？？
+            name: newName, //todo 如果用了大括号会怎样？？？？？ 
+            // 会变成 对象 {newName: newName}  (key 是 newName, value 是 newName )
+            //如果要访问与原来一样的那个值， 原来是 newPerson.name
+            //现在是 newPerson.name.newName
             number: newNumber,
             id: persons.length + 1, // 姑且这样。。。
         };
@@ -81,38 +89,20 @@ const App = () => {
         <div>
             {/* <div>debug: {newName}</div> */}
             <h2>Phonebook</h2>
-            <div>
-                filter shown with:{" "}
-                <input value={filterName} onChange={handlerFilterNameChange} />
-            </div>
+            <Filter
+                filtername={filterName}
+                onChange={handlerFilterNameChange}
+            />
             <h2>Add a new</h2>
-            <form onSubmit={addContact}>
-                <div>
-                    name: <input value={newName} onChange={handlerNameChange} />
-                </div>
-                <div>
-                    number:
-                    <input value={newNumber} onChange={handlerNumberChange} />
-                </div>
-                <div>
-                    <button type="submit">add</button>
-                </div>
-            </form>
+            <PersonForm
+                newName={newName}
+                newNumber={newNumber}
+                onSubmit={addContact}
+                onNameChange={handlerNameChange}
+                onNumberChange={handlerNumberChange}
+            />
             <h2>Numbers</h2>
-            {
-                persons
-                    .filter((person) =>
-                        person.name
-                            .toLowerCase()
-                            .includes(filterName.toLowerCase())
-                    )
-                    .map((person) => (
-                        <div key={person.id}>
-                            {person.name} {person.number}
-                        </div>
-                    ))
-                // 这个有点丑陋， 不应该用数组下标作为id的
-            }
+            <Persons persons={persons} filter={filterName} />
         </div>
     );
 };
