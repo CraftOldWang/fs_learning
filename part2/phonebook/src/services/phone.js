@@ -17,4 +17,11 @@ const remove = (id) => {
     return  request // 似乎没有数据 .data？？ 看看返回什么
 }
 
-export default {getAll, create, remove}
+const update = (id, newPerson) => {
+    console.log("id",id)
+    console.log("newPerson",newPerson)
+    const request = axios.put(`${baseUrl}/${id}`,newPerson)
+    return request.then(response=>response.data)
+}
+
+export default {getAll, create, remove, update}

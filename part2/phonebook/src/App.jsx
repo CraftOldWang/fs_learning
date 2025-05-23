@@ -38,23 +38,48 @@ const App = () => {
     const addContact = (event) => {
         event.preventDefault();
         // console.log(event.target);
-        const newPerson = {
-            name: newName,
-            number: newNumber,
-        };
-        const hasEqual = persons.reduce(
+
+        const foundEqual = persons.reduce(
             (hasFindEq, curPerson) =>
                 hasFindEq ||
                 (newName === curPerson.name && newNumber === curPerson.number),
             false
         );
+        let eqPerson;
+        const foundNameEqual = persons.find((p) => {
+            if (p.name === newName) {
+                eqPerson = p;
+                return true;
+            }
+            return false;
+        });
+        console.log("foundEqual", foundEqual);
+        console.log("foundNameEqual", foundNameEqual);
+        console.log("eqPerson", eqPerson);
 
-        console.log("hasEqual", hasEqual);
-
-        if (hasEqual) {
+        if (foundEqual) {
             alert(`${newName} : ${newNumber},is already added to phonebook`);
             // setNewName("");
+        } else if (foundNameEqual !== undefined) {
+            if (
+                window.confirm(
+                    `${newName} is already added to phonebook, replace the old numberwith a new one?`
+                )
+            ) {
+                const changedPerson = { ...eqPerson, number: newNumber };
+                console.log('changedPerson', changedPerson)
+                phoneService.update(changedPerson.id, changedPerson).then(
+                    personUpdated => {
+                        console.log('personUpdated', personUpdated)
+                        setPersons(persons.map(p=>p.id === personUpdated.id ? personUpdated: p))
+                    }
+                )
+            }
         } else {
+            const newPerson = {
+                name: newName,
+                number: newNumber,
+            };
             phoneService.create(newPerson).then((newP) => {
                 // console.log(p)
                 setPersons(persons.concat(newP));
@@ -72,11 +97,16 @@ const App = () => {
             phoneService
                 .remove(personToDelete.id)
                 .then(() => {
-                    setPersons(persons.filter((p) => p.id !== personToDelete.id));
+                    setPersons(
+                        persons.filter((p) => p.id !== personToDelete.id)
+                    );
                 })
                 //原来有错误也没关系吗，只要我catch并处理了。
-                .catch((error)=>{
-                    alert(`the person '${personToDelete.name}' was already deleted from server`)
+                .catch((error) => {
+                    alert(
+                        `the person '${personToDelete.name}' was already deleted from server`
+                    );
+                    setPersons(persons.filter(p=>p.id !== personToDelete.id))
                 });
         }
     };
