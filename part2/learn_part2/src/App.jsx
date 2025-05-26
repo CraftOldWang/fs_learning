@@ -1,7 +1,6 @@
 import Note from "./components/Note";
 import Footer from "./components/Footer";
 import { useState, useEffect } from "react";
-import axios from "axios";
 import noteService from "./services/notes";
 
 const Notification = ({ message }) => {

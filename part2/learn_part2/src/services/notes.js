@@ -1,5 +1,5 @@
 import axios from 'axios'
-const baseUrl = 'http://localhost:3001/notes'
+const baseUrl = 'http://localhost:3001/api/notes'
 
 const getAll = () => {
   const request = axios.get(baseUrl)
@@ -23,8 +23,3 @@ const update = (id, newObject) => {
 
 export default {getAll, create, update} // 这个实际是对象， 只不过是 属性:值  刚好是一个标识符时的 缩写方式。
 
-// export default { 
-//   getAll: getAll, 
-//   create: create, 
-//   update: update 
-// }
